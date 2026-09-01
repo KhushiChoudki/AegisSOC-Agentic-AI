@@ -17,7 +17,7 @@ anthropic>=0.45.0
 # @server.list_tools()/@server.call_tool(), which mcp 2.0.0 replaced with
 # add_request_handler()/MCPServer. Until those 21 servers are migrated,
 # 2.x breaks them at import.
-mcp>=1.23.0,<2.0.0
+mcp>=2.1.1,<3.0.0
 openai>=1.40.0
 # HTTP client for every integration client and MCP tool server. Arrives
 # transitively via anthropic/openai; pinned so we don't rely on someone
