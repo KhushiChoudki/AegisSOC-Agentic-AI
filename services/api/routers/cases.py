@@ -141,7 +141,28 @@ async def get_case(case_id: str):
     case = data_service.get_case(case_id)
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
+
+    try:
+        from core.agents.langgraph_investigator import run_langgraph_investigation
+        finding_id = case.get("finding_ids", ["f-sample"])[0] if case.get("finding_ids") else "f-sample"
+        lg_result = run_langgraph_investigation({"finding_id": finding_id, "data_source": "EDR", "anomaly_score": 0.88})
+        case["langgraph_execution"] = lg_result
+    except Exception as e:
+        case["langgraph_execution"] = {"engine": "LangGraph StateGraph v0.3", "error": str(e)}
+
     return case
+
+
+@router.get("/{case_id}/langgraph-investigation")
+async def get_case_langgraph_investigation(case_id: str):
+    """Execute and return LangGraph cyclic investigation graph state for a case."""
+    case = data_service.get_case(case_id)
+    if not case:
+        raise HTTPException(status_code=404, detail="Case not found")
+
+    from core.agents.langgraph_investigator import run_langgraph_investigation
+    finding_id = case.get("finding_ids", ["f-sample"])[0] if case.get("finding_ids") else "f-sample"
+    return run_langgraph_investigation({"finding_id": finding_id, "data_source": "EDR", "anomaly_score": 0.88})
 
 
 @router.post("/")

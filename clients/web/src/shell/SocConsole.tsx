@@ -26,7 +26,7 @@ import WorkflowsScreen from '../screens/workflows/WorkflowsScreen'
 import AutoOpsScreen from '../screens/autoops/AutoOpsScreen'
 import SettingsScreen from '../screens/settings/SettingsScreen'
 import NotFoundScreen from '../screens/notfound/NotFoundScreen'
-import { VigilMark, VigilLogo } from '../shared/VigilLogo'
+import { VigilMark } from '../shared/VigilLogo'
 
 const SCREENS: Record<ConsoleScreenKey, (props: ConsoleScreenProps) => JSX.Element> = {
   dashboard: DashboardScreen,
@@ -270,7 +270,6 @@ function SocConsoleInner() {
             aria-expanded={railExpanded}
           >
             <VigilMark className="nav-logo mark" />
-            <VigilLogo className="nav-logo full" />
           </button>
           <div className="rail-sep" />
           {navItems.filter(([, , key, gate]) => {

@@ -1,16 +1,12 @@
-# Vigil
+# AegisSOC
 
-Vigil is the leading open source AI SOC: an agentic SOC with 13 specialized AI agents, 30+ MCP integrations, and 7,200+ community detection rules, released under Apache 2.0. Your playbooks are plain-text files, your agent logic is readable Python, and your integrations use an open standard ([MCP](https://modelcontextprotocol.io/)). Every proprietary AI SOC on the market is a black box you rent. Vigil is a capability you own.
+AegisSOC is an open-source Autonomous AI SOC platform powered by 13 specialized AI agents, LangGraph stateful reasoning graphs, 30+ MCP integrations, and 7,200+ community detection rules. Your playbooks are plain-text files, your agent logic is readable Python, and your integrations use an open standard ([MCP](https://modelcontextprotocol.io/)).
 
-Vigil pairs with [LogLM](https://www.deeptempo.ai/platform), a cybersecurity foundation model for [behavioral anomaly detection](https://www.deeptempo.ai/learning-center/behavioral-anomaly-detection), to form the [Intelligent Defense Platform](https://www.deeptempo.ai) from [DeepTempo](https://www.deeptempo.ai). Measured in the open by [SOCBench](https://socbench.org). Docs and community: [vigilsoc.org](https://vigilsoc.org).
-
-The inspiration for the project is in part StackStorm and the experience of some of the founders of this project had in building the Linux Foundation project [StackStorm](https://github.com/StackStorm/st2) and in supporting Netflix and others who used StackStorm to achieve, carefully, very high levels of automation.  You'll sometimes hear us talking about the journey towards full autonomy and lessons learned.  One lesson - the system can only demote itself and only humans can promote additional autonomy.  You'll find this playing out on the way Vigil is designed; for example Vigil will check thresholds for projected costs and confidence levels in completion before executing an automation.  If it looks dodgy or too expensive, it'll double check with the humans before moving ahead.  
-
-The project is built on three pillars: **Agents** — 13 specialized AI agents you can read, fork, and rewire; **Workflows** — multi-agent playbooks defined as Markdown files you edit directly; and **Integrations** — 30+ tool connections via MCP that you configure, not a vendor. The most important pillar is **YOU** — this is your project. Contribute via feedback, code, a repo star, memes on Discord, or otherwise.
+The project is built on three pillars: **Agents** — 13 specialized AI agents you can read, fork, and rewire; **Workflows** — multi-agent playbooks defined as Markdown files you edit directly; and **Integrations** — 30+ tool connections via MCP.
 
 ---
 
-## 12 Specialized AI Agents
+## 13 Specialized AI Agents
 
 Every agent has access to 19 backend tools via Agent SDK and 100+ additional tools via MCP. Agents are the building blocks that Workflows orchestrate.
 
@@ -18,6 +14,7 @@ Every agent has access to 19 backend tools via Agent SDK and 100+ additional too
 |-------|------|----------|----------------|
 | **Triage** | Rapid alert assessment | Fast | Severity scoring, false-positive filtering, escalation decisions |
 | **Investigator** | Root cause analysis | Deep | Evidence collection, timeline reconstruction, cross-source correlation |
+| **LangGraph Agent** | Stateful graph reasoning | Deep | Cyclic hypothesis formulation, state transitions, evidence loops |
 | **Threat Hunter** | Proactive hunting | Deep | Hypothesis-driven anomaly detection, pattern intelligence from 7,200+ rules |
 | **Correlator** | Multi-signal linking | Deep | Campaign identification, attack chain reconstruction, entity mapping |
 | **Responder** | Containment actions | Fast | NIST IR containment, blast radius assessment, confidence-scored approval requests |
@@ -31,11 +28,12 @@ Every agent has access to 19 backend tools via Agent SDK and 100+ additional too
 
 ## Workflows — One-Click Multi-Agent Workflows
 
-Workflows are the operational core of Vigil. Each workflow chains multiple specialized AI agents into an end-to-end playbook that executes with a single command. No manual hand-offs, no copy-pasting between tools — the agents coordinate automatically.  
+Workflows chain multiple specialized AI agents into an end-to-end playbook that executes with a single command.
 
 | Workflow | Agents | What It Does |
 |----------|--------|-------------|
 | **Incident Response** | Triage → Investigator → Responder → Reporter | NIST IR framework: triage an alert, investigate root cause, contain the threat, produce an audit-ready report |
+| **LangGraph Investigation** | LangGraph Agent → Investigator → Responder | Cyclic hypothesis testing loop with StateGraph node execution & confidence progression |
 | **Full Investigation** | Investigator → MITRE Analyst → Correlator → Responder → Reporter | Deep-dive with ATT&CK mapping, cross-signal correlation, response planning, and comprehensive documentation |
 | **Threat Hunt** | Threat Hunter → Network Analyst → Malware Analyst → Threat Intel → Reporter | Hypothesis-driven hunting across network, endpoint, and threat intel — with IOC enrichment and detection recommendations |
 | **Forensic Analysis** | Forensics → Malware Analyst → Network Analyst → Reporter | Post-incident digital forensics with evidence preservation, chain-of-custody documentation suitable for legal proceedings |

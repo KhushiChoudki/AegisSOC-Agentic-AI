@@ -33,7 +33,7 @@ services:
     # pgvector-capable image (findings.embedding uses vector(768) + HNSW).
     # The stock postgres:16 image does NOT ship the `vector` extension.
     image: pgvector/pgvector:pg16
-    container_name: deeptempo-postgres
+    container_name: aegissoc-postgres
     environment:
       POSTGRES_DB: deeptempo_soc
       POSTGRES_USER: deeptempo
@@ -64,7 +64,7 @@ services:
   # Redis - Job queue backend for ARQ (LLM request queuing + session store)
   redis:
     image: redis:7-alpine
-    container_name: deeptempo-redis
+    container_name: aegissoc-redis
     ports:
       # Loopback-only, for the same reason as postgres above, and with less
       # standing in the way: this Redis runs without requirepass, so anything
@@ -89,8 +89,10 @@ services:
       dockerfile: infra/docker/Dockerfile.backend
       args:
         PYTHON_VERSION: ${PYTHON_VERSION:-3.12}
-    container_name: deeptempo-backend
+    container_name: aegissoc-backend
     environment:
+      - DEV_MODE=${DEV_MODE:-true}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-secret-key-change-in-production-32bytes}
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=deeptempo_soc
@@ -108,6 +110,8 @@ services:
       # which was the agent layer's address while it shared the backend process.
       - AGENT_URL=http://agent-serve:6989
       - PYTHONUNBUFFERED=1
+    volumes:
+      - ../..:/app
     ports:
       - "6987:6987"
     depends_on:
@@ -128,7 +132,7 @@ services:
       dockerfile: infra/docker/Dockerfile.daemon
       args:
         PYTHON_VERSION: ${PYTHON_VERSION:-3.12}
-    container_name: deeptempo-daemon
+    container_name: aegissoc-daemon
     environment:
       # Database
       - POSTGRES_HOST=postgres

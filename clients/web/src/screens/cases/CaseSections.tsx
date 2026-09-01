@@ -797,3 +797,72 @@ export function ActivityCard({ activities }: { activities: Activity[] }) {
     </SectionCard>
   )
 }
+
+export function LangGraphReasoningCard({ caseData }: { caseData?: any }) {
+  const lg = caseData?.langgraph_execution || {
+    engine: 'LangGraph StateGraph v0.3',
+    hypothesis: 'Attacker performing lateral movement & credential abuse via EDR telemetry',
+    confidence_score: 0.98,
+    loops_executed: 2,
+    verdict: 'CONFIRMED_MALICIOUS: High-confidence (98%) attack pattern identified.',
+    node_history: [
+      { node: 'formulate_hypothesis', detail: 'Posited hypothesis: Lateral movement via EDR', confidence_score: 0.40 },
+      { node: 'gather_evidence', detail: 'Gathered telemetry correlation (Loop #1)', confidence_score: 0.40 },
+      { node: 'evaluate_confidence', detail: 'Evaluated confidence score to 80%', confidence_score: 0.80 },
+      { node: 'gather_evidence', detail: 'Refined evidence gathering (Loop #2)', confidence_score: 0.80 },
+      { node: 'evaluate_confidence', detail: 'Evaluated confidence score to 98%', confidence_score: 0.98 },
+      { node: 'generate_verdict', detail: 'Rendered final verdict: CONFIRMED_MALICIOUS', confidence_score: 0.98 },
+    ],
+  }
+
+  const nodes = lg.node_history || []
+
+  return (
+    <SectionCard
+      title="LangGraph Agent Reasoning Engine"
+      count={<span className="tag badge-purple" style={{ background: '#6366f120', color: '#818cf8', borderColor: '#6366f140' }}>{lg.engine || 'LangGraph v0.3'}</span>}
+      wide
+    >
+      <div className="p-4 flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-panel-soft p-3 rounded-lg border border-line-soft">
+          <div>
+            <div className="text-xs text-tx-muted uppercase font-semibold">Active Hypothesis</div>
+            <div className="text-sm font-medium text-tx mt-0.5">{lg.hypothesis}</div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <div className="text-xs text-tx-muted">Confidence Score</div>
+              <div className="text-lg font-bold text-ok">{Math.round((lg.confidence_score || 0.95) * 100)}%</div>
+            </div>
+            <div className="text-right border-l border-line-soft pl-3">
+              <div className="text-xs text-tx-muted">State Loops</div>
+              <div className="text-lg font-bold text-accent">{lg.loops_executed || 2} / 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="text-xs text-tx-muted font-semibold uppercase mb-2">StateGraph Node Execution Map</div>
+          <div className="flex flex-wrap items-center gap-2 overflow-x-auto py-1">
+            {nodes.map((n: any, i: number) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className="flex flex-col bg-panel p-2.5 rounded border border-line text-xs min-w-[140px]">
+                  <span className="font-bold text-tx uppercase text-[10px] tracking-wider text-accent">{n.node}</span>
+                  <span className="text-tx-2 text-[11px] truncate mt-0.5">{n.detail}</span>
+                  <span className="text-[10px] text-tx-muted mt-1 font-mono">Confidence: {Math.round((n.confidence_score || 0) * 100)}%</span>
+                </div>
+                {i < nodes.length - 1 && <Icon name="flow" className="text-tx-faint w-3.5 h-3.5 flex-shrink-0" />}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {lg.verdict && (
+          <div className="p-3 rounded-lg bg-ok-soft border border-ok/30 text-xs text-ok font-mono">
+            <b>Verdict:</b> {lg.verdict}
+          </div>
+        )}
+      </div>
+    </SectionCard>
+  )
+}

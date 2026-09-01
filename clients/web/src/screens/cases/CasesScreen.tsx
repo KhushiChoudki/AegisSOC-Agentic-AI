@@ -24,6 +24,7 @@ import {
   RelatedCasesCard,
   AuditLogCard,
   ActivityCard,
+  LangGraphReasoningCard,
 } from './CaseSections'
 
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1)
@@ -1031,6 +1032,7 @@ function CasesDetail({
     ),
     Investigation: (
       <>
+        <LangGraphReasoningCard caseData={c} />
         <FindingsCard total={c?.findings ?? 0} linked={linked} phase={phase} />
         <TimelineCard caseId={id} />
         <EvidenceCard caseId={id} />

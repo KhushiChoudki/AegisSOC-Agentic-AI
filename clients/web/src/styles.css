@@ -333,28 +333,27 @@
       color: #1f2428;
    }
 
+   .rail .nav-logo.mark,
+   .rail .nav-logo.full {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
+   }
+
    .rail .nav-logo.mark {
-      width: 23px;
-      height: 23px;
-      /* override the generic `.nav-btn svg { flex: 0 0 19px }` rule — the logo
-         lives inside the toggle button but must size to its own aspect. */
-      flex: 0 0 auto;
+      display: block;
    }
 
    .rail .nav-logo.full {
       display: none;
-      height: 28px;
-      width: auto;
-      max-width: 180px;
-      flex: 0 0 auto;
    }
 
    .rail.expanded .nav-logo.mark {
-      display: none;
+      display: block;
    }
 
    .rail.expanded .nav-logo.full {
-      display: block;
+      display: none;
    }
 
    .rail .nav-toggle {

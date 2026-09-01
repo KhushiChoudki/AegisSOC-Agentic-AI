@@ -36,6 +36,7 @@ class AgentId(str, Enum):
     MALWARE_ANALYST = "malware_analyst"
     NETWORK_ANALYST = "network_analyst"
     AUTO_RESPONDER = "auto_responder"
+    LANGGRAPH_INVESTIGATOR = "langgraph_investigator"
 
 
 # The autonomous loop authors decisions of its own but is not an agent: it has
@@ -86,6 +87,29 @@ class AgentProfile:
 
 
 BUILTIN_AGENTS = [
+    {
+        "id": "langgraph_investigator",
+        "decision_id": "langgraph_investigation",
+        "component_category": "investigation",
+        "task_keywords": ["langgraph", "stategraph", "cyclic", "graph"],
+        "role": "LangGraph Stateful Agent specializing in cyclic hypothesis testing & graph reasoning",
+        "name": "LangGraph Agent",
+        "icon": "L",
+        "color": "#818cf8",
+        "description": "Cyclic state-machine investigation engine powered by LangGraph StateGraph",
+        "specialization": "Stateful Graph Reasoning & Iterative Evidence Loops",
+        "recommended_tools": ["get_finding", "nearest_neighbors", "search_detections", "update_case"],
+        "max_tokens": 4096,
+        "enable_thinking": True,
+        "extra_principles": "- Execute cyclic hypothesis formulation and evidence accumulation loops\n- Maintain state persistence across graph node transitions",
+        "methodology": """<methodology>
+1. Node 1: Formulate Hypothesis
+2. Node 2: Gather Evidence
+3. Node 3: Evaluate Confidence Score
+4. Conditional Edge: Loop back to Node 2 if confidence < 85%, else route to Node 4
+5. Node 4: Generate Final Verdict & Remediation Plan
+</methodology>""",
+    },
     {
         "id": "triage",
         "decision_id": "triage",
